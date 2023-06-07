@@ -1,40 +1,64 @@
 "use client";
 
-import { useRef } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { FC } from "react";
+import useHandleInput from "../hooks/useHandleInput";
+import { axiosInstanceV3 } from "../hooks/useAxios";
+import ListCountry from "./list_country";
 
-const InputCountry: React.FC = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const findCountry = async (searchdata: string): Promise<any[]> => {
+  const response = await axiosInstanceV3.get(`/name/${searchdata}`);
 
-  const handleInputFocus = () => {
-    if (inputRef.current) {
-      inputRef.current.classList.add("border-purple-600/50");
-      const nextSibling = inputRef.current.nextSibling as HTMLElement;
-      nextSibling?.classList.add("text-purple-600");
-    }
-  };
+  return response.data;
+};
 
-  const handleInputBlur = () => {
-    if (inputRef.current) {
-      inputRef.current.classList.remove("border-purple-600/50");
-      const nextSibling = inputRef.current.nextSibling as HTMLElement;
-      nextSibling?.classList.remove("text-purple-600");
-    }
-  };
+const InputCountry: FC = () => {
+  const { inputRef, handleInputFocus, handleInputBlur } = useHandleInput();
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
+  const [inputValue, setInputValue] = useState<string>("");
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchCountry = async () => {
+      if (inputValue !== "") {
+        const data = await findCountry(inputValue);
+        const top5Data = data.slice(0, 5); // Limit the data to top 5 results
+        setSearchResults(data.length > 5 ? top5Data : data);
+      }
+    };
+
+    const timer = setTimeout(() => {
+      fetchCountry();
+    }, 500);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
+  }, [inputValue]);
 
   return (
-    <div className="relative flex">
-      <input
-        ref={inputRef}
-        type="text"
-        className="aboslute outline-none rounded-md border border-slate-300 w-[500px] py-2 px-4 focus:border-2"
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-      />
-      <div className="absolute right-0 top-0 h-full flex items-center pr-2">
-        <AiOutlineSearch size={24} />
+    <>
+      <div className="relative flex">
+        <input
+          ref={inputRef}
+          value={inputValue}
+          type="text"
+          className="aboslute outline-none rounded-md border border-slate-300 w-[500px] py-2 px-4 focus:border-2"
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setInputValue(e.target.value)
+          }
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+        />
+        <div className="absolute top-0 right-0 flex items-center h-full pr-2">
+          <AiOutlineSearch size={24} />
+        </div>
       </div>
-    </div>
+      <ListCountry />
+    </>
   );
 };
 
