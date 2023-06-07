@@ -8,7 +8,7 @@ const Page: FC<PageProps> = ({}) => {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col gap-5">
-        <h1 className="box-border block p-5 text-5xl font-bold text-center">
+        <h1 className="box-border block text-5xl font-bold text-center">
           Country
         </h1>
         <InputCountry />
@@ -18,3 +18,4 @@ const Page: FC<PageProps> = ({}) => {
 };
 
 export default Page;
+

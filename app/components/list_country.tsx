@@ -1,17 +1,25 @@
-import { FC } from "react";
+// "use client";
+import Link from "next/link";
 
-interface ListCountryProps {}
+import { CountryType } from "../types";
+import { splitCountryName } from "../utils/helpers";
 
-const ListCountry: FC<ListCountryProps> = ({}) => {
+const ListCountry = ({ countries }: { countries: CountryType[] }) => {
   return (
-    <ul>
-      <li className="">Negara 1</li>
-      <li>Negara 1</li>
-      <li>Negara 1</li>
-      <li>Negara 1</li>
-      <li>Negara 1</li>
+    <ul className="py-5 overflow-hidden rounded-md shadow-md max-h-96">
+      {countries.map((country) => (
+        <li key={country.area} className="my-1 hover:bg-slate-300/20">
+          <Link
+            href={`/${splitCountryName(country.name.official)}`}
+            className="mx-5"
+          >
+            {country.name.official}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
 
 export default ListCountry;
+

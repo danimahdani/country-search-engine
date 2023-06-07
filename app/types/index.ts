@@ -35,6 +35,7 @@ export interface CountryType {
   capitalInfo: CapitalInfo;
   postalCode: PostalCode;
 }
+[];
 
 export interface CapitalInfo {
   latlng: number[];
@@ -112,3 +113,4 @@ export interface PostalCode {
   format: string;
   regex: string;
 }
+
