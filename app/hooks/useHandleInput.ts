@@ -5,17 +5,17 @@ const useHandleInput = () => {
 
   const handleInputFocus = () => {
     if (inputRef.current) {
-      inputRef.current.classList.add("focus:border-purple-600/50");
+      inputRef.current.classList.add("focus:border-purple-primary/50");
       const nextSibling = inputRef.current.nextSibling as HTMLElement;
-      nextSibling?.classList.add("text-purple-600");
+      nextSibling?.classList.add("text-purple-primary");
     }
   };
 
   const handleInputBlur = () => {
     if (inputRef.current) {
-      inputRef.current.classList.remove("focus:border-purple-600/50");
+      inputRef.current.classList.remove("focus:border-purple-primary/50");
       const nextSibling = inputRef.current.nextSibling as HTMLElement;
-      nextSibling?.classList.remove("text-purple-600");
+      nextSibling?.classList.remove("text-purple-primary");
     }
   };
 
@@ -23,3 +23,4 @@ const useHandleInput = () => {
 };
 
 export default useHandleInput;
+

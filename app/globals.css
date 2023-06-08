@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tooltip {
+  @apply relative inline-block cursor-pointer;
+}
+
+.tooltip .tooltip-text {
+  @apply p-2 text-white transition-opacity duration-300 ease-in-out rounded opacity-0 bg-slate-600/50;
+}
+
+.tooltip:hover .tooltip-text {
+  @apply opacity-100;
+}
+
