@@ -23,8 +23,6 @@ const InputCountry: FC = () => {
   useEffect(() => {
     let isMounted = true;
     const fetchCountry = async () => {
-      console.log("inputValue", inputValue);
-
       if (inputValue !== "") {
         const data = await findCountry(inputValue);
         const top5Data = data.slice(0, 5); // Limit the data to top 5 results
