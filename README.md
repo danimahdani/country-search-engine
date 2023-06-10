@@ -24,12 +24,12 @@ pnpm dev
 
 ## Tech Stack
 
-- Next JS 13 App Dir
-- Typescript
-- Tailwind CSS
-- SVGR
-- axios
-- react-icons
+- [Next JS 13 App Dir](https://nextjs.org)
+- [Typescript](https://www.typescriptlang.org)
+- [Tailwind](https://tailwindcss.com)
+- [SVGR](https://react-svgr.com)
+- [axios](https://axios-http.com)
+- [react-icons](https://react-icons.github.io/react-icons)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
