@@ -62,8 +62,6 @@ const Page = async ({ params }: CountryProps) => {
     remainderCountry: number;
   } = await currencyCountry(currencyCode);
 
-  console.log("hasil currency country", currencyData);
-
   return (
     <div className="mx-auto my-20 max-w-7xl">
       <Link

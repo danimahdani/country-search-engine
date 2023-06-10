@@ -52,10 +52,10 @@ export interface CoatOfArms {
 }
 
 export interface Currencies {
-  USD: Usd;
+  [key: string]: Currrency;
 }
 
-export interface Usd {
+export interface Currrency {
   name: string;
   symbol: string;
 }
@@ -245,4 +245,3 @@ export interface Translations {
   it: string;
   hu: string;
 }
-

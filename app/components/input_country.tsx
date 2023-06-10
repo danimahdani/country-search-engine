@@ -7,16 +7,22 @@ import useHandleInput from "../hooks/useHandleInput";
 import { restCountriesV3 } from "../hooks/useAxios";
 import ListCountry from "./list_country";
 import { CountryType } from "../types";
+import { AxiosError } from "axios";
 
-const findCountry = async (searchdata: string): Promise<any[]> => {
-  const response = await restCountriesV3.get(`/name/${searchdata}`);
+const findCountry = async (searchdata: string) => {
+  try {
+    const response = await restCountriesV3.get(`/name/${searchdata}`);
 
-  return response.data;
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 const InputCountry: FC = () => {
   const { inputRef, handleInputFocus, handleInputBlur } = useHandleInput();
   const [searchResults, setSearchResults] = useState<CountryType[]>([]);
+  const [isNotFound, setIsNotFound] = useState<boolean>(false);
 
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -25,8 +31,15 @@ const InputCountry: FC = () => {
     const fetchCountry = async () => {
       if (inputValue !== "") {
         const data = await findCountry(inputValue);
-        const top5Data = data.slice(0, 5); // Limit the data to top 5 results
-        setSearchResults(data.length > 5 ? top5Data : data);
+        if (data.status === 404) {
+          setIsNotFound(true);
+          setSearchResults([]);
+        } else {
+          setIsNotFound(false);
+
+          const top5Data = data.slice(0, 5); // Limit the data to top 5 results
+          setSearchResults(data.length > 5 ? top5Data : data);
+        }
       } else {
         setSearchResults([]);
       }
@@ -61,6 +74,12 @@ const InputCountry: FC = () => {
         </div>
       </div>
       <div className="w-full h-52">
+        {isNotFound && (
+          <div className="w-[500px] py-5 overflow-hidden rounded-md shadow-md max-h-96">
+            <span className="mx-5 text-rose-600">Data not Found</span>
+          </div>
+        )}
+
         {searchResults.length > 0 && <ListCountry countries={searchResults} />}
       </div>
     </>
